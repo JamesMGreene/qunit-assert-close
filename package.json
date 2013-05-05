@@ -1,7 +1,7 @@
 {
   "name": "qunit-assert-close",
   "description": "A QUnit plugin for asserting that a number is approximately equal (or not) to an expected number, within a given tolerance.",
-  "version": "1.0.1-pre",
+  "version": "1.0.1",
   "author": {
     "name": "jQuery Foundation and other contributors",
     "url": "https://github.com/JamesMGreene/qunit-assert-close/blob/master/AUTHORS.txt"
