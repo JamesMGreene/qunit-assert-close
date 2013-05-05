@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/JamesMGreene/qunit-assert-close.png)](https://travis-ci.org/JamesMGreene/qunit-assert-close)
+
 # QUnit Close assertion plugin
 
 This plugin for [QUnit](https://github.com/jquery/qunit) adds `close` and `notClose` assertion methods
