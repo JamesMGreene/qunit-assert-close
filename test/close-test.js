@@ -35,3 +35,25 @@ QUnit.test("Distant Numbers", function(assert) {
 
   assert.notClose(Infinity, -Infinity, 5);
 });
+
+QUnit.test("Close Numbers, percentage based", function(assert) {
+  assert.close.percent(7, 7, 0.0);
+  assert.close.percent(7, 7.1, 2.0);   // ~1.43%
+  assert.close.percent(7, 7.1, 1.5);   // ~1.43%
+  assert.close.percent(7, 7.1, 1.43);  // ~1.43%
+  assert.close.percent(Infinity, Infinity, 1.0);
+  assert.close.percent(Infinity, Infinity, 0.0);
+  assert.close.percent(0, 100, Infinity);
+  assert.close.percent(100, 0, Infinity);
+  assert.close.percent(Infinity, -Infinity, Infinity);
+});
+
+QUnit.test("Distant Numbers, percentage based", function(assert) {
+  assert.notClose.percent(6, 7, 0.0);
+  assert.notClose.percent(7, 7.2, 2.50);  // ~2.777%
+  assert.notClose.percent(7, 7.2, 2.70);  // ~2.777%
+  assert.notClose.percent(7, 7.2, 2.77);  // ~2.777%
+  assert.notClose.percent(0, 100, 100.0);
+  assert.notClose.percent(100, 0, 1000000.0);
+  assert.notClose.percent(Infinity, -Infinity, 100.0);
+});
