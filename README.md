@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/JamesMGreene/qunit-assert-close.png)](https://travis-ci.org/JamesMGreene/qunit-assert-close) [![NPM version](https://badge.fury.io/js/qunit-assert-close.png)](https://www.npmjs.com/package/qunit-assert-close)
+[![Build Status](https://travis-ci.org/JamesMGreene/qunit-assert-close.png?branch=master)](https://travis-ci.org/JamesMGreene/qunit-assert-close) [![NPM version](https://badge.fury.io/js/qunit-assert-close.png)](https://www.npmjs.com/package/qunit-assert-close)
 
 # QUnit Close assertion plugin
 
