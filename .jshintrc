@@ -1,6 +1,7 @@
 {
   "globals": {
-    "QUnit": false
+    "QUnit": false,
+    "define": false
   },
 
   "bitwise": true,
