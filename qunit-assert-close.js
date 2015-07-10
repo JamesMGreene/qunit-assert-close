@@ -1,16 +1,28 @@
-(function (factory) {
+(function(factory) {
+
+  // NOTE:
+  // All techniques except for the "browser globals" fallback will extend the
+  // provided QUnit object but return the isolated API methods
+
+  // For AMD: Register as an anonymous AMD module with a named dependency on "qunit".
   if (typeof define === "function" && define.amd) {
-
-    // AMD. Register as an anonymous module.
-    define([
-      "qunit"
-    ], factory);
-  } else {
-
-    // Browser globals
+    define(["qunit"], factory);
+  }
+  // For Node.js
+  else if (typeof module !== "undefined" && module && module.exports && typeof require === "function") {
+    module.exports = factory(require("qunitjs"));
+  }
+  // For CommonJS with `exports`, but without `module.exports`, like Rhino
+  else if (typeof exports !== "undefined" && exports && typeof require === "function") {
+    var qunit = require("qunitjs");
+    qunit.extend(exports, factory(qunit));
+  }
+  // For browser globals
+  else {
     factory(QUnit);
   }
-}(function (QUnit) {
+
+}(function(QUnit) {
   /**
    * Checks that the first two arguments are equal, or are numbers close enough to be considered equal
    * based on a specified maximum allowable difference.
@@ -113,8 +125,12 @@
   };
 
 
-  QUnit.extend(QUnit.assert, {
+  var api = {
     close: close,
     notClose: notClose
-  });
+  };
+
+  QUnit.extend(QUnit.assert, api);
+
+  return api;
 }));

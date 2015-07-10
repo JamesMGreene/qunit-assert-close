@@ -1,7 +1,12 @@
 {
   "globals": {
     "QUnit": false,
-    "define": false
+    // For AMD
+    "define": false,
+    // For Node.js & CommonJS
+    "require": false,
+    "module": false,
+    "exports": false
   },
 
   "bitwise": true,
