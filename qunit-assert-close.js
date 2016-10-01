@@ -23,6 +23,40 @@
   }
 
 }(function(QUnit) {
+
+  /**
+   * Find an appropriate `Assert` context to `push` results to.
+   * @param * context - An unknown context, possibly `Assert`, `Test`, or neither
+   * @private
+   */
+  function _getPushContext(context) {
+    var pushContext;
+
+    if (context && typeof context.push === "function") {
+      // `context` is an `Assert` context
+      pushContext = context;
+    }
+    else if (context && context.assert && typeof context.assert.push === "function") {
+      // `context` is a `Test` context
+      pushContext = context.assert;
+    }
+    else if (
+      QUnit && QUnit.config && QUnit.config.current && QUnit.config.current.assert &&
+      typeof QUnit.config.current.assert.push === "function"
+    ) {
+      // `context` is an unknown context but we can find the `Assert` context via QUnit
+      pushContext = QUnit.config.current.assert;
+    }
+    else if (QUnit && typeof QUnit.push === "function") {
+      pushContext = QUnit.push;
+    }
+    else {
+      throw new Error("Could not find the QUnit `Assert` context to push results");
+    }
+
+    return pushContext;
+  }
+
   /**
    * Checks that the first two arguments are equal, or are numbers close enough to be considered equal
    * based on a specified maximum allowable difference.
@@ -36,9 +70,12 @@
    */
   function close(actual, expected, maxDifference, message) {
     var actualDiff = (actual === expected) ? 0 : Math.abs(actual - expected),
-        result = actualDiff <= maxDifference;
+        result = actualDiff <= maxDifference,
+        pushContext = _getPushContext(this);
+
     message = message || (actual + " should be within " + maxDifference + " (inclusive) of " + expected + (result ? "" : ". Actual: " + actualDiff));
-    QUnit.push(result, actual, expected, message);
+
+    pushContext.push(result, actual, expected, message);
   }
 
 
@@ -54,7 +91,9 @@
    * @param String message (optional)
    */
   close.percent = function closePercent(actual, expected, maxPercentDifference, message) {
-    var actualDiff, result;
+    var actualDiff, result,
+        pushContext = _getPushContext(this);
+
     if (actual === expected) {
       actualDiff = 0;
       result = actualDiff <= maxPercentDifference;
@@ -70,7 +109,7 @@
     }
     message = message || (actual + " should be within " + maxPercentDifference + "% (inclusive) of " + expected + (result ? "" : ". Actual: " + actualDiff + "%"));
 
-    QUnit.push(result, actual, expected, message);
+    pushContext.push(result, actual, expected, message);
   };
 
 
@@ -87,9 +126,12 @@
    */
   function notClose(actual, expected, minDifference, message) {
     var actualDiff = Math.abs(actual - expected),
-        result = actualDiff > minDifference;
+        result = actualDiff > minDifference,
+        pushContext = _getPushContext(this);
+
     message = message || (actual + " should not be within " + minDifference + " (exclusive) of " + expected + (result ? "" : ". Actual: " + actualDiff));
-    QUnit.push(result, actual, expected, message);
+
+    pushContext.push(result, actual, expected, message);
   }
 
 
@@ -105,7 +147,9 @@
    * @param String message (optional)
    */
   notClose.percent = function notClosePercent(actual, expected, minPercentDifference, message) {
-    var actualDiff, result;
+    var actualDiff, result,
+        pushContext = _getPushContext(this);
+
     if (actual === expected) {
       actualDiff = 0;
       result = actualDiff > minPercentDifference;
@@ -121,13 +165,15 @@
     }
     message = message || (actual + " should not be within " + minPercentDifference + "% (exclusive) of " + expected + (result ? "" : ". Actual: " + actualDiff + "%"));
 
-    QUnit.push(result, actual, expected, message);
+    pushContext.push(result, actual, expected, message);
   };
 
 
   var api = {
     close: close,
-    notClose: notClose
+    notClose: notClose,
+    closePercent: close.percent,
+    notClosePercent: notClose.percent
   };
 
   QUnit.extend(QUnit.assert, api);

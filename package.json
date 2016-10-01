@@ -1,7 +1,7 @@
 {
   "name": "qunit-assert-close",
   "description": "A QUnit plugin for asserting that a number is approximately equal (or not) to an expected number, within a given tolerance.",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "jQuery Foundation and other contributors",
     "url": "https://github.com/JamesMGreene/qunit-assert-close/blob/master/AUTHORS.txt"
@@ -21,10 +21,7 @@
   "bugs": {
     "url": "https://github.com/JamesMGreene/qunit-assert-close/issues"
   },
-  "license": {
-    "name": "MIT",
-    "url": "http://www.opensource.org/licenses/mit-license.php"
-  },
+  "license": "MIT",
   "keywords": [
     "qunit-plugin",
     "qunit-assert",
@@ -41,10 +38,10 @@
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt": "~0.4.3",
-    "grunt-contrib-jshint": "~0.8.0",
-    "grunt-contrib-qunit": "~0.4.0",
-    "grunt-git-authors": "~1.2.0",
-    "qunitjs": "~1.14.0"
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-qunit": "^1.2.0",
+    "grunt-git-authors": "^3.2.0",
+    "qunitjs": "^2.0.1"
   }
 }

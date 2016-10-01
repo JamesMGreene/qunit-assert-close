@@ -9,9 +9,16 @@ assertion methods to test that a number is approximately equal (or not) to an ex
 
 ```js
 assert.close(actual, expected, maxDifference, message);
+
 assert.notClose(actual, expected, minDifference, message);
+
 assert.close.percent(actual, expected, maxPercentDifference, message);
+// Alternatively:
+assert.closePercent(actual, expected, maxPercentDifference, message);
+
 assert.notClose.percent(actual, expected, minPercentDifference, message);
+// Alternatively:
+assert.notClosePercent(actual, expected, minPercentDifference, message);
 ```
 
 Where:
