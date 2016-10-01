@@ -57,3 +57,11 @@ QUnit.test("Distant Numbers, percentage based", function(assert) {
   assert.notClose.percent(100, 0, 1000000.0);
   assert.notClose.percent(Infinity, -Infinity, 100.0);
 });
+
+QUnit.test("close.percent is the same as closePercent", function(assert) {
+  assert.strictEqual( assert.close.percent, assert.closePercent );
+});
+
+QUnit.test("notClose.percent is the same as notClosePercent", function(assert) {
+  assert.strictEqual( assert.notClose.percent, assert.notClosePercent );
+});
