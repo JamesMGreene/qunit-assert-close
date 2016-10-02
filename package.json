@@ -37,6 +37,9 @@
   "scripts": {
     "test": "grunt test"
   },
+  "peerDependencies": {
+    "qunitjs": "*"
+  },
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
