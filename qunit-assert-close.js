@@ -1,61 +1,4 @@
-(function(factory) {
-
-  // NOTE:
-  // All techniques except for the "browser globals" fallback will extend the
-  // provided QUnit object but return the isolated API methods
-
-  // For AMD: Register as an anonymous AMD module with a named dependency on "qunit".
-  if (typeof define === "function" && define.amd) {
-    define(["qunit"], factory);
-  }
-  // For Node.js
-  else if (typeof module !== "undefined" && module && module.exports && typeof require === "function") {
-    module.exports = factory(require("qunitjs"));
-  }
-  // For CommonJS with `exports`, but without `module.exports`, like Rhino
-  else if (typeof exports !== "undefined" && exports && typeof require === "function") {
-    var qunit = require("qunitjs");
-    qunit.extend(exports, factory(qunit));
-  }
-  // For browser globals
-  else {
-    factory(QUnit);
-  }
-
-}(function(QUnit) {
-
-  /**
-   * Find an appropriate `Assert` context to `push` results to.
-   * @param * context - An unknown context, possibly `Assert`, `Test`, or neither
-   * @private
-   */
-  function _getPushContext(context) {
-    var pushContext;
-
-    if (context && typeof context.push === "function") {
-      // `context` is an `Assert` context
-      pushContext = context;
-    }
-    else if (context && context.assert && typeof context.assert.push === "function") {
-      // `context` is a `Test` context
-      pushContext = context.assert;
-    }
-    else if (
-      QUnit && QUnit.config && QUnit.config.current && QUnit.config.current.assert &&
-      typeof QUnit.config.current.assert.push === "function"
-    ) {
-      // `context` is an unknown context but we can find the `Assert` context via QUnit
-      pushContext = QUnit.config.current.assert;
-    }
-    else if (QUnit && typeof QUnit.push === "function") {
-      pushContext = QUnit.push;
-    }
-    else {
-      throw new Error("Could not find the QUnit `Assert` context to push results");
-    }
-
-    return pushContext;
-  }
+export function installClose(QUnit) {
 
   /**
    * Checks that the first two arguments are equal, or are numbers close enough to be considered equal
@@ -69,9 +12,8 @@
    * @param String message (optional)
    */
   function close(actual, expected, maxDifference, message) {
-    var actualDiff = (actual === expected) ? 0 : Math.abs(actual - expected),
-        result = actualDiff <= maxDifference,
-        pushContext = _getPushContext(this);
+    let actualDiff = (actual === expected) ? 0 : Math.abs(actual - expected),
+        result = actualDiff <= maxDifference;
 
     message = message || (actual + " should be within " + maxDifference + " (inclusive) of " + expected + (result ? "" : ". Actual: " + actualDiff));
 
@@ -91,8 +33,7 @@
    * @param String message (optional)
    */
   close.percent = function closePercent(actual, expected, maxPercentDifference, message) {
-    var actualDiff, result,
-        pushContext = _getPushContext(this);
+    let actualDiff, result;
 
     if (actual === expected) {
       actualDiff = 0;
@@ -125,9 +66,8 @@
    * @param String message (optional)
    */
   function notClose(actual, expected, minDifference, message) {
-    var actualDiff = Math.abs(actual - expected),
-        result = actualDiff > minDifference,
-        pushContext = _getPushContext(this);
+    let actualDiff = Math.abs(actual - expected),
+        result = actualDiff > minDifference;
 
     message = message || (actual + " should not be within " + minDifference + " (exclusive) of " + expected + (result ? "" : ". Actual: " + actualDiff));
 
@@ -147,8 +87,7 @@
    * @param String message (optional)
    */
   notClose.percent = function notClosePercent(actual, expected, minPercentDifference, message) {
-    var actualDiff, result,
-        pushContext = _getPushContext(this);
+    let actualDiff, result;
 
     if (actual === expected) {
       actualDiff = 0;
@@ -169,14 +108,12 @@
   };
 
 
-  var api = {
+  let api = {
     close: close,
     notClose: notClose,
     closePercent: close.percent,
     notClosePercent: notClose.percent
   };
 
-  QUnit.extend(QUnit.assert, api);
-
-  return api;
-}));
+  Object.assign(QUnit.assert, api)
+}

@@ -5,6 +5,26 @@
 This plugin for [QUnit](https://github.com/jquery/qunit) adds `close`, `notClose`, `close.percent`, and `notClose.percent`
 assertion methods to test that a number is approximately equal (or not) to an expected number, within a given tolerance.
 
+## Installation
+
+Install the dependency:
+
+```
+yarn add -D qunit-assert-close
+```
+
+and then add the following in your JavaScript code:
+
+```javascript
+import QUnit from "qunit";
+import { installClose } from "qunit-assert-close";
+
+installClose(QUnit);
+```
+
+If you're using Ember, the right place for that snippet is your `tests/test-helper.js`.
+
+
 ## Usage
 
 ```js
